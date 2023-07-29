@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,6 +30,12 @@ public class UserController {
     // @Autowired
     public UserController(UsersService usersService) {
         this.usersService = usersService;
+    }
+
+    ///Get All Users
+    @GetMapping("/users")
+    public List<Users> find() {
+        return usersService.find();
     }
 
     // Get a user by ID
@@ -75,7 +82,8 @@ public class UserController {
             usersService.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException ex) {
-            return ResponseEntity.notFound().build();
+            // return ResponseEntity.notFound().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

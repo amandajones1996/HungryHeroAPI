@@ -8,20 +8,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name="users")
 public class Users {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", nullable = false, unique = true)
+    // @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    // @Column(name = "password", nullable = false)
     private String password;
 
-    public Users(String email, String password) {
+    public Users() {
+        // Default constructor required by JPA
+    }
+
+    public Users(Long id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
     }

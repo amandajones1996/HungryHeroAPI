@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.EmptyResultDataAccessException;
 // import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 public class UsersService implements IUsersService {
     
     @Autowired
     private UsersRepository usersRepository;
+    @Override
+    public List<Users> find() {
+        return usersRepository.findAllByOrderByIdAsc();
+    }
 
     @Override
     public Optional<Users> findById(Long id) {
