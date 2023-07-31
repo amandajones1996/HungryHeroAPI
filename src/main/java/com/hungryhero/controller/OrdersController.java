@@ -92,31 +92,31 @@ public class OrdersController {
             return ResponseEntity.internalServerError().build();
         }
     }
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long id) {
-        // Implement the logic to fetch orders by user ID
-        // You can use the UsersService to find the user by their ID
-        Optional<Users> userOptional= usersService.findById(id);
-        Users user = userOptional.orElse(null);
-        if (user != null) {
-            List<Orders> orders = ordersService.getOrdersByUser(user);
-            return ResponseEntity.ok(orders);
-        } else {
-            // Return 404 Not Found response
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // @GetMapping("/orders/users/{user_id}")
-    // public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long userId) {
-    //      // Check if the user exists
-    //     Optional<Users> userOptional = usersService.findById(userId);
-    //     if (userOptional.isEmpty()) {
+    // @GetMapping("/users/{userId}")
+    // public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long id) {
+    //     // Implement the logic to fetch orders by user ID
+    //     // You can use the UsersService to find the user by their ID
+    //     Optional<Users> userOptional= usersService.findById(id);
+    //     Users user = userOptional.orElse(null);
+    //     if (user != null) {
+    //         List<Orders> orders = ordersService.getOrdersByUser(user);
+    //         return ResponseEntity.ok(orders);
+    //     } else {
+    //         // Return 404 Not Found response
     //         return ResponseEntity.notFound().build();
     //     }
-
-    //     // User exists, get the orders
-    //     List<Orders> orders = ordersService.findByUserId(userId);
-    //     return ResponseEntity.ok(orders);
     // }
+
+    @GetMapping("/users/{user_id}")
+    public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long userId) {
+         // Check if the user exists
+        Optional<Users> userOptional = usersService.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // User exists, get the orders
+        List<Orders> orders = ordersService.getOrdersByUserId(userId);
+        return ResponseEntity.ok(orders);
+    }
 }

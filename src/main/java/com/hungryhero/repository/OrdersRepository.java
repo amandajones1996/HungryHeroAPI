@@ -3,7 +3,7 @@ package com.hungryhero.repository;
 import org.springframework.data.repository.CrudRepository;
 
 import com.hungryhero.model.Orders;
-import com.hungryhero.model.Users;
+// import com.hungryhero.model.Users;
 
 
 import java.util.List;
@@ -17,6 +17,6 @@ public interface OrdersRepository extends  CrudRepository <Orders, Long> {
 
     List<Orders> findByRestaurant(String restaurant);
 
-    List<Orders> findByUser(Users user);
+    List<Orders> findByUserId(Long userId);
     
 }

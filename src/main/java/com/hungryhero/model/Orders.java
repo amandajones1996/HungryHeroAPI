@@ -4,11 +4,11 @@ package com.hungryhero.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+// import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+// import jakarta.persistence.JoinColumn;
+// import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -35,24 +35,24 @@ public class Orders {
 
     // @ManyToOne(fetch = FetchType.EAGER)
     // @JoinColumn(name = "user_id", referencedColumnName = "id")
-    // @Column(name = "user_id")
-    // private Long userId;
+    @Column(name = "user_id")
+    private Long userId;
 
     // Define the relationship between Order and User
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private Users user;
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "user_id", referencedColumnName = "id")
+    // private Users user;
 
     public Orders() {}
 
-    public Orders(Long orderId, String restaurant, String foodOrder, String deliveryFrequency, Double totalAmount, Users user) {
+    public Orders(Long orderId, String restaurant, String foodOrder, String deliveryFrequency, Double totalAmount, Long userId) {
         this.orderId = orderId;
         this.restaurant = restaurant;
         this.foodOrder = foodOrder;
         this.deliveryFrequency = deliveryFrequency;
         this.totalAmount = totalAmount;
-        this.user = user;
-        // this.userId = userId;
+        // this.user = user;
+        this.userId = userId;
     }
 
     public Long getorderId() {
@@ -95,20 +95,20 @@ public class Orders {
         this.totalAmount = totalAmount;
     }
 
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    // public Long getUserId() {
-    //     return userId;
+    // public Users getUser() {
+    //     return user;
     // }
 
-    // public void setUserId(Long userId) {
-    //     this.userId = userId;
+    // public void setUser(Users user) {
+    //     this.user = user;
     // }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
 }

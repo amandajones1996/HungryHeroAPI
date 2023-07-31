@@ -2,6 +2,7 @@ package com.hungryhero.model;
 // import javax.persistence.CascadeType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 // import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 // import jakarta.persistence.Column;
@@ -31,7 +32,8 @@ public class Users {
     private String password;
 
     // Add the one-to-many relationship mapping
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private List<Orders> orders = new ArrayList<>(0);
 
 

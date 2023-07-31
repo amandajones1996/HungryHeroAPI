@@ -72,7 +72,7 @@ public class OrdersService implements IOrdersService {
     // }
 
     @Override
-    public List<Orders> getOrdersByUser(Users user) {
-        return ordersRepository.findByUser(user);
+    public List<Orders> getOrdersByUserId(Long userId) {
+        return ordersRepository.findByUserId(userId);
     }
 }

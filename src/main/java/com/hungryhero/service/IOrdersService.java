@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.hungryhero.model.Orders;
 // import com.hungryhero.model.Users;
-import com.hungryhero.model.Users;
+// import com.hungryhero.model.Users;
 
 import java.util.List;
 
@@ -25,5 +25,5 @@ public interface IOrdersService {
     // Get all orders
     List<Orders> findAll();
 
-    List<Orders> getOrdersByUser(Users user);
+    List<Orders> getOrdersByUserId(Long userId);
 }
