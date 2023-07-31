@@ -1,6 +1,11 @@
-package com.hungryhero;
+package com.hungryhero.repository;
 
 import org.springframework.data.repository.CrudRepository;
+
+import com.hungryhero.model.Orders;
+import com.hungryhero.model.Users;
+
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,9 +17,6 @@ public interface OrdersRepository extends  CrudRepository <Orders, Long> {
 
     List<Orders> findByRestaurant(String restaurant);
 
-    List<Orders> findByUserId(Long user_id);
-
-    List<Orders> findByDeliveryFrequency(String deliveryFrequency);
-
-    List<Orders> findByTotalAmount(Double totalAmount);
+    List<Orders> findByUser(Users user);
+    
 }

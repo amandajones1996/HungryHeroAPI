@@ -1,6 +1,10 @@
-package com.hungryhero;
+package com.hungryhero.service;
 
 import java.util.Optional;
+
+import com.hungryhero.model.Orders;
+import com.hungryhero.model.Users;
+
 import java.util.List;
 
 public interface IUsersService {
@@ -14,4 +18,6 @@ public interface IUsersService {
     Users update(Long id, Users updatedUser);
 
     void deleteById(Long id);
+
+    List<Orders> getOrders(Long id);
 }

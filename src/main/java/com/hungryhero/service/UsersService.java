@@ -1,9 +1,16 @@
-package com.hungryhero;
+package com.hungryhero.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
+import com.hungryhero.model.Orders;
+import com.hungryhero.model.Users;
+import com.hungryhero.repository.UsersRepository;
+import java.util.Collections;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 // import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -13,6 +20,7 @@ public class UsersService implements IUsersService {
     
     @Autowired
     private UsersRepository usersRepository;
+    
     @Override
     public List<Users> find() {
         return usersRepository.findAllByOrderByIdAsc();
@@ -44,5 +52,14 @@ public class UsersService implements IUsersService {
     @Override
     public void deleteById(Long id) {
         usersRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Orders> getOrders(Long id) {
+        // Find the user by their userId
+        Users user = usersRepository.findById(id).orElse(null);
+
+        // If the user is found, return their orders, otherwise return an empty list
+        return user != null ? user.getOrders() : Collections.emptyList();
     }
 }

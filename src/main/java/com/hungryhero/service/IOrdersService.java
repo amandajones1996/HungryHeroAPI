@@ -1,6 +1,11 @@
-package com.hungryhero;
+package com.hungryhero.service;
 
 import java.util.Optional;
+
+import com.hungryhero.model.Orders;
+// import com.hungryhero.model.Users;
+import com.hungryhero.model.Users;
+
 import java.util.List;
 
 public interface IOrdersService {
@@ -9,7 +14,7 @@ public interface IOrdersService {
     Orders save(Orders order);
 
     // Update an existing order
-    Orders update(Orders order);
+    Orders update(Long orderId, Orders updatedOrder);
 
     // Delete an order by ID
     void deleteById(Long orderId);
@@ -20,8 +25,5 @@ public interface IOrdersService {
     // Get all orders
     List<Orders> findAll();
 
-    // Get orders by user ID
-    List<Orders> findByUserId(Long user_id);
-
-    
+    List<Orders> getOrdersByUser(Users user);
 }

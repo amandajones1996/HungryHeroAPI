@@ -1,6 +1,6 @@
-package com.hungryhero;
-import com.hungryhero.Users;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+package com.hungryhero.model;
+// import com.hungryhero.Users;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="orders")
 public class Orders {
-    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,28 +33,33 @@ public class Orders {
     @Column(name = "total_amount")
     private Double totalAmount;
 
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "user_id", referencedColumnName = "id")
+    // @Column(name = "user_id")
+    // private Long userId;
+
     // Define the relationship between Order and User
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users user;
 
-    public Orders() {
-        // Default constructor required by JPA
-    }
+    public Orders() {}
 
-    public Orders(String restaurant, String foodOrder, String deliveryFrequency, Double totalAmount, Users user) {
+    public Orders(Long orderId, String restaurant, String foodOrder, String deliveryFrequency, Double totalAmount, Users user) {
+        this.orderId = orderId;
         this.restaurant = restaurant;
         this.foodOrder = foodOrder;
         this.deliveryFrequency = deliveryFrequency;
         this.totalAmount = totalAmount;
         this.user = user;
+        // this.userId = userId;
     }
 
-    public Long getOrder_id() {
+    public Long getorderId() {
         return orderId;
     }
 
-    public void setOrder_id(Long orderId) {
+    public void setorderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -98,4 +102,13 @@ public class Orders {
     public void setUser(Users user) {
         this.user = user;
     }
+
+    // public Long getUserId() {
+    //     return userId;
+    // }
+
+    // public void setUserId(Long userId) {
+    //     this.userId = userId;
+    // }
+
 }
