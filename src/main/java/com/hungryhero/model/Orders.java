@@ -55,11 +55,11 @@ public class Orders {
         this.userId = userId;
     }
 
-    public Long getorderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setorderId(Long orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
