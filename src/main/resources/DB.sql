@@ -6,7 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY, 
-    restaurant VARCHAR(255) NOT NULL,
+    restaurant VARCHAR(255) UNIQUE NOT NULL,
     food_order TEXT NOT NULL,
     delivery_freq TEXT NOT NULL,
     total_amount NUMERIC(10, 2),

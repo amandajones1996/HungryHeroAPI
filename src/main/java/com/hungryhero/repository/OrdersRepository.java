@@ -1,7 +1,6 @@
 package com.hungryhero.repository;
 
 import org.springframework.data.repository.CrudRepository;
-// import org.springframework.stereotype.Repository;
 
 import com.hungryhero.model.Orders;
 // import com.hungryhero.model.Users;

@@ -47,7 +47,7 @@ public class OrdersController {
     }
 
     // Get an order by ID
-    @GetMapping("/orders/{orderId}")
+    @GetMapping("/orders/{id}")
     public ResponseEntity<Orders> getOrderById(@PathVariable Long orderId) {
         Optional<Orders> orderOptional = ordersService.findById(orderId);
         
@@ -70,7 +70,7 @@ public class OrdersController {
     }
 
     // Update an existing order
-    @PutMapping("/orders/{orderId}")
+    @PutMapping("/orders/{id}")
     public ResponseEntity<Orders> updateOrder(@PathVariable Long  orderId, @RequestBody Orders updatedOrderRequest) {
         Orders existingOrder = ordersService.update(orderId, updatedOrderRequest);
 
@@ -82,7 +82,7 @@ public class OrdersController {
     }
 
     // Delete an order by ID
-    @DeleteMapping("/orders/{orderId}")
+    @DeleteMapping("/orders/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         try {
@@ -107,7 +107,7 @@ public class OrdersController {
     //     }
     // }
 
-    @GetMapping("orders/users/{userId}")
+    @GetMapping("/users/{user_id}")
     public ResponseEntity<List<Orders>> getOrdersByUserId(@PathVariable Long userId) {
          // Check if the user exists
         Optional<Users> userOptional = usersService.findById(userId);
