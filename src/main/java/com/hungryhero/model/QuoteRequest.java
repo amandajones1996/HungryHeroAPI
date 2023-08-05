@@ -1,11 +1,21 @@
 package com.hungryhero.model;
 
-public class DeliveryRequest {
+
+public class QuoteRequest {
+    private String externalDeliveryId;
     private String dropoffAddress;
     private String dropoffPhoneNumber;
     private String pickupAddress;
     private String pickupPhoneNumber;
 
+
+    public String getExternalDeliveryId() {
+        return externalDeliveryId;
+    }
+
+    public void setExternalDeliveryId(String externalDeliveryId) {
+        this.externalDeliveryId = externalDeliveryId;
+    }
 
     public String getDropoffAddress() {
         return dropoffAddress;
@@ -23,6 +33,7 @@ public class DeliveryRequest {
         this.dropoffPhoneNumber = dropoffPhoneNumber;
     }
 
+
     public String getPickupAddress() {
         return pickupAddress;
     }
@@ -38,5 +49,4 @@ public class DeliveryRequest {
     public void setPickupPhoneNumber(String pickupPhoneNumber) {
         this.pickupPhoneNumber = pickupPhoneNumber;
     }
-
 }

@@ -50,8 +50,58 @@ public class JwtService {
                 .compact();
     }
 
+    public String createQuote(String developerId, String keyId, String signingSecret,
+                                String dropoffAddress, String dropoffPhoneNumber,
+                                String pickupAddress, String pickupPhoneNumber) {
+        // Generate a unique ID for the quote (you can use any method to generate a unique ID)
+        String externalDeliveryId = "Q-" + String.format("%04d", new Random().nextInt(10000));
 
-    public String createDelivery(String developerId, String keyId, String signingSecret,
+        String jwtToken = generateJwt(developerId, keyId, signingSecret);
+
+        String apiUrl = "https://openapi.doordash.com/drive/v2/quotes";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(jwtToken);
+
+        // Construct the request body for creating a quote
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("external_delivery_id", externalDeliveryId);
+        requestBody.put("dropoff_address", dropoffAddress);
+        requestBody.put("dropoff_phone_number", dropoffPhoneNumber);
+        requestBody.put("pickup_address", pickupAddress);
+        requestBody.put("pickup_phone_number", pickupPhoneNumber);
+
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+        return response.getBody();
+        } else {
+        return "Failed to create quote. Status code: " + response.getStatusCode();
+        }
+    }
+
+    public String acceptQuote(String developerId, String keyId, String signingSecret, String externalDeliveryId) {
+        String jwtToken = generateJwt(developerId, keyId, signingSecret);
+
+        String apiUrl = "https://openapi.doordash.com/drive/v2/quotes/" + externalDeliveryId + "/accept";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(jwtToken);
+
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(null, headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            return "Failed to accept quote. Status code: " + response.getStatusCode();
+        }
+    }
+
+    public String createDelivery(String developerId, String keyId, String signingSecret, 
                                 String dropoffAddress, String dropoffPhoneNumber,
                                 String pickupAddress, String pickupPhoneNumber) {
         // Generate a unique ID for the delivery (you can use any method to generate a unique ID)
@@ -84,4 +134,23 @@ public class JwtService {
         }
     }
 
+    public String cancelDelivery(String developerId, String keyId, String signingSecret, String externalDeliveryId) {
+        String jwtToken = generateJwt(developerId, keyId, signingSecret);
+    
+        String apiUrl = "https://openapi.doordash.com/drive/v2/deliveries/" + externalDeliveryId + "/cancel";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(jwtToken);
+    
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+    
+        ResponseEntity<String> response = restTemplate.exchange(apiUrl, HttpMethod.PUT, requestEntity, String.class);
+    
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return "Delivery canceled successfully.";
+        } else {
+            return "Failed to cancel delivery. Status code: " + response.getStatusCode();
+        }
+
+    }
 }
