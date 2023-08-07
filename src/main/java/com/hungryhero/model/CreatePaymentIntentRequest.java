@@ -5,9 +5,8 @@ public class CreatePaymentIntentRequest {
     private long amount;
     private String currency;
 
-    public CreatePaymentIntentRequest() {
-        // Empty constructor (no-argument constructor)
-    }
+    public CreatePaymentIntentRequest() {}
+    
 
     public CreatePaymentIntentRequest(String customerId, long amount, String currency) {
         this.customerId = customerId;
