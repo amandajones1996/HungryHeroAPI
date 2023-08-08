@@ -2,6 +2,7 @@ package com.hungryhero.repository;
 
 import java.util.Optional;
 
+// import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 // import org.springframework.data.jpa.repository.JpaRepository;
 // import com.hungryhero.model.Users;
 import org.springframework.data.repository.CrudRepository;
@@ -19,4 +20,5 @@ public interface UsersRepository extends CrudRepository <Users, Long> {
     Optional<Users> findById(Long id);
     List<Users> findAllByOrderByIdAsc();
     // List<Orders> getOrders(Long id);
+    Optional<Users> findByEmail(String email);
 }

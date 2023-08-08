@@ -3,6 +3,7 @@ package com.hungryhero.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 
@@ -61,5 +62,17 @@ public class UsersService implements IUsersService {
 
         // If the user is found, return their orders, otherwise return an empty list
         return user != null ? user.getOrders() : Collections.emptyList();
+    }
+
+
+    public boolean authenticateUser(String email, String password) {
+        Optional<Users> userOptional = usersRepository.findByEmail(email);
+        
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            return user.getPassword().equals(password); // Compare passwords
+        }
+
+        return false; // User not found
     }
 }

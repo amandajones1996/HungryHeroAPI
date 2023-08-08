@@ -2,6 +2,8 @@ package com.hungryhero.service;
 
 import java.util.Optional;
 
+// import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+
 import com.hungryhero.model.Orders;
 import com.hungryhero.model.Users;
 
@@ -20,4 +22,5 @@ public interface IUsersService {
     void deleteById(Long id);
 
     List<Orders> getOrders(Long id);
+
 }

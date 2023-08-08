@@ -22,7 +22,7 @@ import com.hungryhero.service.UsersService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-
+import java.util.Map;
 import java.util.List;
 
 @RestController
@@ -66,6 +66,20 @@ public class UserController {
     public ResponseEntity<Users> createUser(@RequestBody Users newUser) {
         Users savedUser = usersService.save(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> authenticateUser(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+
+        boolean authenticated = usersService.authenticateUser(email, password);
+
+        if (authenticated) {
+            return ResponseEntity.ok("Authentication successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+        }
     }
 
     // Update an existing user
