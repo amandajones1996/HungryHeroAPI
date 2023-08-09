@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hungryhero.model.AuthenticationResult;
 import com.hungryhero.model.Users;
 import com.hungryhero.service.UsersService;
 
@@ -68,19 +69,34 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
+    // @PostMapping("/login")
+    // public ResponseEntity<String> authenticateUser(@RequestBody Map<String, String> credentials) {
+    //     String email = credentials.get("email");
+    //     String password = credentials.get("password");
+
+    //     boolean authenticated = usersService.authenticateUser(email, password);
+
+    //     if (authenticated) {
+    //         return ResponseEntity.ok("Authentication successful");
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+    //     }
+    // }
+
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<AuthenticationResult> authenticateUser(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
 
-        boolean authenticated = usersService.authenticateUser(email, password);
+        AuthenticationResult authenticationResult = usersService.authenticateUser(email, password);
 
-        if (authenticated) {
-            return ResponseEntity.ok("Authentication successful");
+        if (authenticationResult.isAuthenticated()) {
+            return ResponseEntity.ok(authenticationResult);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(authenticationResult);
         }
     }
+
 
     // Update an existing user
     @PutMapping("/users/{id}")

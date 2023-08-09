@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
-
+import com.hungryhero.model.AuthenticationResult;
 import com.hungryhero.model.Orders;
 import com.hungryhero.model.Users;
 import com.hungryhero.repository.UsersRepository;
@@ -65,14 +65,28 @@ public class UsersService implements IUsersService {
     }
 
 
-    public boolean authenticateUser(String email, String password) {
-        Optional<Users> userOptional = usersRepository.findByEmail(email);
+    // public boolean authenticateUser(String email, String password) {
+    //     Optional<Users> userOptional = usersRepository.findByEmail(email);
         
-        if (userOptional.isPresent()) {
-            Users user = userOptional.get();
-            return user.getPassword().equals(password); // Compare passwords
-        }
+    //     if (userOptional.isPresent()) {
+    //         Users user = userOptional.get();
+    //         return user.getPassword().equals(password); // Compare passwords
+    //     }
 
-        return false; // User not found
+    //     return false; // User not found
+    // }
+
+    public AuthenticationResult authenticateUser(String email, String password) {
+    Optional<Users> userOptional = usersRepository.findByEmail(email);
+    
+    if (userOptional.isPresent()) {
+        Users user = userOptional.get();
+        if (user.getPassword().equals(password)) {
+            return new AuthenticationResult(true, user.getId());
+        }
     }
+
+    return new AuthenticationResult(false, null); // User not found or authentication failed
+}
+
 }
