@@ -1,18 +1,8 @@
 package com.hungryhero.controller;
 
-// import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-// import com.stripe.model.Customer;
-// import com.stripe.model.Customer;
 import com.stripe.model.PaymentIntent;
-// import com.stripe.model.SetupIntent;
-// import com.stripe.model.Price;
 import com.stripe.model.Subscription;
-// import com.stripe.param.PriceCreateParams;
-// import com.stripe.param.SubscriptionItemCreateParams;
-// import com.stripe.param.SetupIntentCreateParams;
-
-// import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +11,7 @@ import com.hungryhero.service.StripeService;
 import com.hungryhero.model.CreateCustomerRequest;
 import com.hungryhero.model.CreatePaymentIntentRequest;
 import com.hungryhero.model.CreateSubscriptionRequest;
-
-// import java.util.ArrayList;
-// import java.util.HashMap;
 import java.util.Map;
-// import java.util.ArrayList;
-// import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -41,33 +26,7 @@ public class StripeController {
     public StripeController(StripeService stripeService) {
         this.stripeService = stripeService;
     }
-    // @PostMapping("stripe/createCustomer")
-    // public ResponseEntity<Map<String, String>> createCustomer(@RequestBody CreateCustomerRequest request) {
-    //     try {
-    //         // Get the necessary data from the request or database
-    //         String email = request.getEmail();
-    //         String name = request.getName();
-    //         String cardNumber = request.getCardNumber();
-    //         Integer expMonth = request.getExpMonth();
-    //         Integer expYear = request.getExpYear();
-    //         String cvc = request.getCvc();
 
-    //         // Call the createPaymentMethod method on the stripeService instance
-    //         String paymentMethodId = stripeService.createPaymentMethod(cardNumber, expMonth, expYear, cvc);
-
-    //         // Call the createCustomer method on the stripeService instance
-    //         Map<String, String> customerInfo = stripeService.createCustomer(email, name);
-
-    //         // Attach the payment method to the customer
-    //         stripeService.attachPaymentMethodToCustomer(customerInfo.get("customerId"), paymentMethodId);
-
-    //         // Return a success response
-    //         return ResponseEntity.ok().body(customerInfo);
-    //     } catch (StripeException e) {
-    //         // Handle Stripe API errors
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-    //     }
-    // }
     @PostMapping("stripe/create-setup-intent")
     public ResponseEntity<Map<String, String>> createSetupIntent(@RequestBody Map<String, String> request) {
         try {
@@ -116,20 +75,6 @@ public class StripeController {
         }
     }
 
-    // @PostMapping("stripe/create-subscription")
-    // public ResponseEntity<String> createSubscription(@RequestBody CreateSubscriptionRequest request) {
-    //     try {
-    //         String customerId = request.getCustomerId();
-    //         List<String> priceIds = request.getItems();
-
-    //         Subscription subscription = stripeService.createSubscription(customerId, priceIds);
-
-    //         return ResponseEntity.ok("Subscription created successfully: " + subscription.getId());
-    //     } catch (StripeException e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create subscription: " + e.getMessage());
-    //     }
-    // }
-
     @PostMapping("stripe/create-subscription")
     public ResponseEntity<String> createSubscription(@RequestBody CreateSubscriptionRequest request) {
         try {
@@ -157,69 +102,14 @@ public class StripeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to cancel subscription: " + e.getMessage());
         }
     }
+
+    @GetMapping("/stripe/get-customer/{customerId}")
+    public ResponseEntity<String> getDefaultPaymentMethod(@PathVariable String customerId) {
+        try {
+            String defaultPaymentMethodId = stripeService.getDefaultPaymentMethodId(customerId);
+            return ResponseEntity.ok(defaultPaymentMethodId);
+        } catch (StripeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching default payment method");
+        }
+    }
 }
-
-
-    // @PostMapping("stripe/create-subscription")
-    // public ResponseEntity<String> createSubscription(@RequestBody CreateSubscriptionRequest request) {
-    //     try {
-    //         String customerId = request.getCustomerId();
-    //         List<String> priceIds = request.getItems();
-    //         String cardNumber = request.getCardNumber();
-    //         Integer expMonth = request.getExpMonth();
-    //         Integer expYear = request.getExpYear();
-    //         String cvc = request.getCvc();
-    
-    //         Subscription subscription = stripeService.createSubscription(customerId, priceIds, cardNumber, expMonth, expYear, cvc);
-    
-    //         return ResponseEntity.ok("Subscription created successfully: " + subscription.getId());
-    //     } catch (StripeException e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create subscription: " + e.getMessage());
-    //     }
-
-    // }
-
-    // @GetMapping("stripe/prices")
-    // public ResponseEntity<List<Price>> listPrices() {
-    //     try {
-    //         List<Price> prices = stripeService.listPrices();
-    //         return ResponseEntity.ok(prices);
-    //     } catch (StripeException e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-    //     }
-    // }
-
-    // @PostMapping("/create-customer")
-    // public ResponseEntity<Customer> createCustomer(@RequestParam String email, @RequestParam String paymentMethodId) {
-    //     try {
-    //         Customer customer = stripeService.createCustomer(email, paymentMethodId);
-    //         return ResponseEntity.ok(customer);
-    //     } catch (StripeException e) {
-    //         // Handle Stripe API error
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
-    // }
-
-    // @PostMapping("/create-payment-intent")
-    // public ResponseEntity<PaymentIntent> createPaymentIntent(@RequestParam String customerId, @RequestParam long amount, @RequestParam String currency) {
-    //     try {
-    //         PaymentIntent paymentIntent = stripeService.createPaymentIntent(customerId, amount, currency);
-    //         return ResponseEntity.ok(paymentIntent);
-    //     } catch (StripeException e) {
-    //         // Handle Stripe API error
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
-    // }
-
-    // @PostMapping("/create-subscription")
-    // public ResponseEntity<Subscription> createSubscription(@RequestParam String customerId, @RequestParam String priceId) {
-    //     try {
-    //         Subscription subscription = stripeService.createSubscription(customerId, priceId);
-    //         return ResponseEntity.ok(subscription);
-    //     } catch (StripeException e) {
-    //         // Handle Stripe API error
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
-    // }
-
-// }
