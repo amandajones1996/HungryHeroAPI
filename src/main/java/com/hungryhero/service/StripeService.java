@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map; 
 
 import com.stripe.model.PaymentMethodCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 
@@ -24,7 +27,7 @@ import com.stripe.model.PaymentMethodCollection;
 @Service
 @Component
 public class StripeService {
-        
+        private static final Logger logger = LoggerFactory.getLogger(StripeService.class);
         public StripeService() {}
 
         
@@ -122,9 +125,11 @@ public class StripeService {
                 
                 if (paymentMethodCollection.getData() != null && !paymentMethodCollection.getData().isEmpty()) {
                         PaymentMethod defaultPaymentMethod = paymentMethodCollection.getData().get(0);
+                        logger.info("PLEASE WORK");
+                        logger.info("Default Payment Method: " + defaultPaymentMethod.toString());
                         return defaultPaymentMethod.getId();
                 }
-                
+
                 return null;
                 }
 }

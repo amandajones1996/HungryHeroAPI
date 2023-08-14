@@ -103,6 +103,7 @@ public class StripeController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000") 
     @GetMapping("/stripe/get-customer/{customerId}")
     public ResponseEntity<String> getDefaultPaymentMethod(@PathVariable String customerId) {
         try {
